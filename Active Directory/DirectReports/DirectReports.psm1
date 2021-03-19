@@ -40,8 +40,8 @@ Function Get-DirectReports {
     BEGIN {}
  
     PROCESS {
-        $UserAccount = Get-ADUser $SamAccountName -Properties DirectReports, DisplayName
-        $UserAccount | select -ExpandProperty DirectReports | ForEach-Object {
+        $User = Get-ADUser $SamAccountName -Properties DirectReports, DisplayName
+        $User | select -ExpandProperty DirectReports | ForEach-Object {
             $User = Get-ADUser $_ -Properties DirectReports, DisplayName, Title, EmployeeID
             if ($null -ne $User.EmployeeID) {
                 if (-not $NoRecurse) {
@@ -52,7 +52,7 @@ Function Get-DirectReports {
                     UserPrincipalName   = $User.UserPrincipalName
                     DisplayName         = $User.DisplayName
                     Manager             = $UserAccount.DisplayName
-		            Title	            = $User.Title
+		    Title	        = $User.Title
                 }
             }
         }
