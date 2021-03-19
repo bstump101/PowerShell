@@ -1,4 +1,4 @@
-Function Get-TcuDirectReport {
+Function Get-DirectReports {
 
 <#
 .SYNOPSIS
@@ -9,7 +9,7 @@ Function Get-TcuDirectReport {
     Name:           Get-DirectReport
     Author:         Bruce Stump
     Version:        1.0
-    DateCreated:    2021-March-17
+    DateCreated:    2021-March-18
     
 .PARAMETER SamAccountName
     Specify the samaccountname (username) to see direct reports.
@@ -18,10 +18,10 @@ Function Get-TcuDirectReport {
     Don't recurse more than one level.
   
 .EXAMPLE
-    Get-DirectReport username
+    Get-DirectReports username
   
 .EXAMPLE
-    "username" | Get-DirectReport
+    "username" | Get-DirectReports
 #>
  
     [CmdletBinding()]
@@ -45,7 +45,7 @@ Function Get-TcuDirectReport {
             $User = Get-ADUser $_ -Properties DirectReports, DisplayName, Title, EmployeeID
             if ($null -ne $User.EmployeeID) {
                 if (-not $NoRecurse) {
-                    Get-TCUDirectReport $User.SamAccountName
+                    Get-DirectReports $User.SamAccountName
                 }
                 [PSCustomObject]@{
                     SamAccountName      = $User.SamAccountName
@@ -59,5 +59,4 @@ Function Get-TcuDirectReport {
     }
  
     END {}
- 
 }
